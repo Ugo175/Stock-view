@@ -1,0 +1,12 @@
+com\stocktrading\model\Portfolio.class
+com\stocktrading\dto\TradeRequest.class
+com\stocktrading\repository\PortfolioRepository.class
+com\stocktrading\repository\TransactionRepository.class
+com\stocktrading\dto\SignUpRequest.class
+com\stocktrading\model\Transaction.class
+com\stocktrading\StockTradingApplication.class
+com\stocktrading\repository\StockRepository.class
+com\stocktrading\repository\UserRepository.class
+com\stocktrading\model\Stock.class
+com\stocktrading\model\User.class
+com\stocktrading\dto\LoginRequest.class

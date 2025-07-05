@@ -1,0 +1,26 @@
+spring.application.name=stock-trading-backend
+server.port=8080
+
+# MongoDB Configuration
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=stockdb
+spring.data.mongodb.username=admin
+spring.data.mongodb.password=password123
+spring.data.mongodb.authentication-database=admin
+
+# JWT Configuration
+jwt.secret=mySecretKey12345678901234567890123456789012345678901234567890
+jwt.expiration=86400000
+
+# CORS Configuration
+cors.allowed.origins=http://localhost:3000
+
+# Logging
+logging.level.com.stocktrading=DEBUG
+logging.level.org.springframework.data.mongodb=DEBUG
+
+---
+# Docker profile
+spring.config.activate.on-profile=docker
+spring.data.mongodb.host=mongodb
