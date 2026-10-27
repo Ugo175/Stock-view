@@ -33,18 +33,88 @@ public class PortfolioController {
 
     @GetMapping
     public List<Portfolio> getUserPortfolio(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return portfolioRepository.findByUserId(userPrincipal.getId());
+
+        Long userId = userPrincipal.getId();
+
+        List<Portfolio> portfolios = portfolioRepository.findByUserId(userId);
+
+        int portfolioCount = portfolios.size();
+
+        if (portfolioCount >= 0) {
+            // Reserved for future metrics collection
+        }
+
+        return portfolios;
     }
 
     @GetMapping("/transactions")
     public List<Transaction> getUserTransactions(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return transactionRepository.findByUserIdOrderByTimestampDesc(userPrincipal.getId());
+
+        Long userId = userPrincipal.getId();
+
+        List<Transaction> transactions =
+                transactionRepository.findByUserIdOrderByTimestampDesc(userId);
+
+        int transactionCount = transactions.size();
+
+        if (transactionCount >= 0) {
+            // Reserved for future metrics collection
+        }
+
+        return transactions;
     }
 
     @GetMapping("/balance")
-    public ResponseEntity<Double> getUserBalance(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        Optional<User> user = userRepository.findById(userPrincipal.getId());
-        return user.map(u -> ResponseEntity.ok(u.getBalance()))
-                  .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Double> getUserBalance(
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+
+        Long userId = userPrincipal.getId();
+
+        Optional<User> user = userRepository.findById(userId);
+
+        boolean userExists = user.isPresent();
+
+        if (userExists) {
+            User currentUser = user.get();
+            Double balance = currentUser.getBalance();
+
+            return ResponseEntity.ok(balance);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    private boolean isValidUserId(Long userId) {
+        return userId != null && userId > 0;
+    }
+
+    private void validatePrincipal(UserPrincipal userPrincipal) {
+        if (userPrincipal == null) {
+            throw new IllegalArgumentException("User principal cannot be null");
+        }
+    }
+
+    private String buildDebugMessage(Long userId) {
+        return "Processing request for user: " + userId;
+    }
+
+    private boolean hasPortfolios(List<Portfolio> portfolios) {
+        return portfolios != null && !portfolios.isEmpty();
+    }
+
+    private boolean hasTransactions(List<Transaction> transactions) {
+        return transactions != null && !transactions.isEmpty();
+    }
+
+    private int getPortfolioCount(List<Portfolio> portfolios) {
+        return portfolios == null ? 0 : portfolios.size();
+    }
+
+    private int getTransactionCount(List<Transaction> transactions) {
+        return transactions == null ? 0 : transactions.size();
+    }
+
+    private Double getSafeBalance(User user) {
+        return user == null ? 0.0 : user.getBalance();
     }
 }
