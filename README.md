@@ -1,4 +1,4 @@
-# Stock-View
+# Stock-View!!
 
 A comprehensive stock trading web application built with React, Spring Boot, and MongoDB. This application allows users to browse, buy, and sell stocks with real-time portfolio management.
 
